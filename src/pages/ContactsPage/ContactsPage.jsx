@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
 
 import {
   selectError,
@@ -15,11 +14,12 @@ import {
 } from 'redux/contacts/contacts-operations';
 import { filterContacts } from 'redux/filter/filter-slice';
 
+import { Loader } from 'components/Loader/Loader';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 
-export const ContactsPage = () => {
+const ContactsPage = () => {
   const contacts = useSelector(selectVisibleContacts);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
@@ -32,7 +32,6 @@ export const ContactsPage = () => {
 
   const handleChange = data => {
     const newContact = {
-      id: nanoid(),
       ...data,
     };
 
@@ -61,15 +60,21 @@ export const ContactsPage = () => {
 
       <section>
         <h2>Contacts</h2>
-        {isLoading && <p>Loading...</p>}
+        {isLoading && <Loader />}
         {error && <p>{error}</p>}
         {contacts && (
           <>
             <Filter startFilter={filter} handleFilter={handleFilter} />
-            <ContactList contacts={contacts} handleDelete={handleDelete} />
+            {contacts.length > 0 ? (
+              <ContactList contacts={contacts} handleDelete={handleDelete} />
+            ) : (
+              <p>You don't have any contacts to show yet.</p>
+            )}
           </>
         )}
       </section>
     </main>
   );
 };
+
+export default ContactsPage;
