@@ -1,17 +1,44 @@
+import { Box, IconButton, List, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
-import { List, Button } from './ContactList.styled';
 
 export const ContactList = ({ contacts, handleDelete }) => {
   return (
-    <List>
+    <List
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+        width: '45%',
+        margin: '0 auto',
+      }}
+    >
       {contacts.map(({ name, id, number }) => (
         <li key={id}>
-          <span>{name}: </span>
-          <span>{number}</span>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+              <Typography
+                component="p"
+                color="primary"
+                sx={{ fontWeight: '700' }}
+              >
+                {name}{' '}
+              </Typography>
+              <Typography component="p">{number}</Typography>
+            </div>
 
-          <Button type="button" onClick={() => handleDelete(id)}>
-            Delete
-          </Button>
+            <IconButton
+              type="button"
+              onClick={() => handleDelete(id)}
+              size="small"
+              edge="start"
+              color="primary"
+              aria-label="delete"
+              sx={{ p: '0 12px' }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
         </li>
       ))}
     </List>

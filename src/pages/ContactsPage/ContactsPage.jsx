@@ -18,6 +18,7 @@ import { Loader } from 'components/Loader/Loader';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
+import { Alert, AlertTitle, Box, Container, Typography } from '@mui/material';
 
 const ContactsPage = () => {
   const contacts = useSelector(selectVisibleContacts);
@@ -55,24 +56,49 @@ const ContactsPage = () => {
 
   return (
     <main>
-      <h1>Phonebook</h1>
-      <ContactForm handleChange={handleChange} />
+      <Container sx={{ padding: '20px 15px' }}>
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{ textAlign: 'center', fontWeight: 700 }}
+        >
+          Phonebook
+        </Typography>
+        <ContactForm handleChange={handleChange} />
 
-      <section>
-        <h2>Contacts</h2>
-        {isLoading && <Loader />}
-        {error && <p>{error}</p>}
-        {contacts && (
-          <>
-            <Filter startFilter={filter} handleFilter={handleFilter} />
-            {contacts.length > 0 ? (
-              <ContactList contacts={contacts} handleDelete={handleDelete} />
-            ) : (
-              <p>You don't have any contacts to show yet.</p>
-            )}
-          </>
-        )}
-      </section>
+        <Box component="section" sx={{ padding: '20px 0' }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            sx={{ textAlign: 'center', fontWeight: 700 }}
+          >
+            List of contacts
+          </Typography>
+          {isLoading && <Loader />}
+          {error && (
+            <Alert severity="error" sx={{ width: '40%', margin: '10px auto' }}>
+              <AlertTitle>Error</AlertTitle>
+              {error}
+            </Alert>
+          )}
+          {!error && contacts && (
+            <>
+              <Filter startFilter={filter} handleFilter={handleFilter} />
+              {contacts.length > 0 ? (
+                <ContactList contacts={contacts} handleDelete={handleDelete} />
+              ) : (
+                <Alert
+                  severity="info"
+                  sx={{ width: '40%', margin: '10px auto' }}
+                >
+                  <AlertTitle>Info</AlertTitle>
+                  You don't have <strong>any contacts</strong> to show yet
+                </Alert>
+              )}
+            </>
+          )}
+        </Box>
+      </Container>
     </main>
   );
 };

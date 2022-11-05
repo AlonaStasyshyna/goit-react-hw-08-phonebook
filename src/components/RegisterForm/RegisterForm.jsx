@@ -1,6 +1,8 @@
+import { Button, Container, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/auth-operations';
+import { CustomizedForm } from './RegisterForm.styled';
 
 export const RegisterForm = () => {
   const [name, setName] = useState('');
@@ -35,31 +37,41 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name
-        <input type="text" name="name" value={name} onChange={handleChange} />
-      </label>
-      <label>
-        Email
-        <input
+    <Container sx={{ padding: '20px 15px' }}>
+      <CustomizedForm component="form" onSubmit={handleSubmit}>
+        <TextField
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleChange}
+          label="Name"
+          size="small"
+        />
+        <TextField
           type="email"
           name="email"
           value={email}
           onChange={handleChange}
+          label="Email"
+          size="small"
         />
-      </label>
-      <label>
-        Password
-        <input
+        <TextField
           type="password"
           name="password"
           value={password}
           onChange={handleChange}
+          label="Password"
+          size="small"
         />
-      </label>
 
-      <button type="submit">Sign up</button>
-    </form>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ width: '60%', margin: '0 auto' }}
+        >
+          Sign up
+        </Button>
+      </CustomizedForm>
+    </Container>
   );
 };

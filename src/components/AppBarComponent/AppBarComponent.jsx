@@ -3,14 +3,20 @@ import { selectToken } from 'redux/auth/auth-selectors';
 import { AuthNavigation } from './AuthNavigation/AuthNavigation';
 import { Navigation } from './Navigation/Navigation';
 import { UserMenu } from './UserMenu/UserMenu';
+import {
+  CustomizedAppBar,
+  CustomizedContainer,
+} from './AppBarComponent.styled';
 
-export const AppBar = () => {
+export const AppBarComponent = () => {
   const token = useSelector(selectToken);
 
   return (
-    <>
-      <Navigation />
-      {token ? <UserMenu /> : <AuthNavigation />}
-    </>
+    <CustomizedAppBar>
+      <CustomizedContainer>
+        <Navigation />
+        {token ? <UserMenu /> : <AuthNavigation />}
+      </CustomizedContainer>
+    </CustomizedAppBar>
   );
 };
